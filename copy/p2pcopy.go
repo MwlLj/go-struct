@@ -5,6 +5,8 @@ import (
 	"reflect"
 )
 
+var _ = fmt.Println
+
 func OrderCopy(src interface{}, dst interface{}) {
 	srcType := reflect.TypeOf(src)
 	dstType := reflect.TypeOf(dst)
@@ -22,16 +24,19 @@ func OrderCopy(src interface{}, dst interface{}) {
 	for i := 0; i < minCount; i++ {
 		dv := dstValue.Elem().Field(i)
 		sv := srcValue.Elem().Field(i)
-		if !dv.IsValid() || dv.IsNil() || !dv.CanSet() {
-			fmt.Println("can't set")
-			continue
-		}
-		srcKind := srcType.Kind()
-		if srcKind == reflect.Ptr {
-		} else if srcKind == reflect.Array {
-		} else if srcKind == reflect.Map {
-		} else {
-			dv.Set(sv)
-		}
+		// if !dv.IsValid() || dv.IsNil() || !dv.CanSet() {
+		// 	fmt.Println("can't set")
+		// 	continue
+		// }
+		// srcKind := srcType.Kind()
+		// if srcKind == reflect.Ptr {
+		// } else if srcKind == reflect.Array {
+		// } else if srcKind == reflect.Map {
+		// } else {
+		// 	dv.Set(sv)
+		// }
+		fmt.Println(sv)
+		dv.Set(sv)
+		fmt.Println(dv)
 	}
 }
