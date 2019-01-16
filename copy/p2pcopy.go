@@ -33,8 +33,8 @@ func OrderCopy(src interface{}, dst interface{}) {
 		dstFieldValue := dstValue.Field(i)
 		srcFieldTypeKind := srcFieldType.Type.Kind()
 		if srcFieldTypeKind != reflect.Ptr && (srcFieldTypeKind != reflect.Struct && srcFieldValue.Type() != dstFieldValue.Type()) {
-			fmt.Println(srcFieldValue.Type())
-			fmt.Println(dstFieldValue.Type())
+			// fmt.Println(srcFieldValue.Type())
+			// fmt.Println(dstFieldValue.Type())
 			return
 		}
 		if srcFieldTypeKind == reflect.Struct {
@@ -44,6 +44,7 @@ func OrderCopy(src interface{}, dst interface{}) {
 		} else if srcFieldTypeKind == reflect.Array {
 		} else {
 			dstFieldValue.Set(srcFieldValue)
+			fmt.Println(dstFieldValue)
 		}
 	}
 }
