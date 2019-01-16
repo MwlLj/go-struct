@@ -32,7 +32,7 @@ func OrderCopy(src interface{}, dst interface{}) {
 		srcFieldValue := srcValue.Field(i)
 		dstFieldValue := dstValue.Field(i)
 		srcFieldTypeKind := srcFieldType.Type.Kind()
-		if srcFieldTypeKind != reflect.Struct && srcFieldValue.Type() != dstFieldValue.Type() {
+		if srcFieldTypeKind != reflect.Ptr && (srcFieldTypeKind != reflect.Struct && srcFieldValue.Type() != dstFieldValue.Type()) {
 			fmt.Println(srcFieldValue.Type())
 			fmt.Println(dstFieldValue.Type())
 			return

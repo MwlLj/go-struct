@@ -15,7 +15,8 @@ type CPig struct {
 type CDog struct {
 	Name string
 	Age  int
-	Pig  CPig
+	// Pig  CPig
+	Collect string
 }
 
 type CCat struct {
@@ -28,10 +29,10 @@ func TestOrderCopy(t *testing.T) {
 	dog := CDog{
 		Name: "wangcai",
 		Age:  1,
-		Pig: CPig{
-			Name: "hanghang1",
-			Age:  1,
-		},
+		// Pig: CPig{
+		// 	Name: "hanghang1",
+		// 	Age:  1,
+		// },
 	}
 	cat := CCat{
 		Name: "tomon",
