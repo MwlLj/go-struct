@@ -10,8 +10,13 @@ var _ = fmt.Println
 func OrderCopy(src interface{}, dst interface{}) {
 	srcType := reflect.TypeOf(src)
 	dstType := reflect.TypeOf(dst)
-	srcCount := srcType.Elem().NumField()
-	dstCount := dstType.Elem().NumField()
+	if srcType.Kind() != reflect.Ptr || dstType.Kind() != reflect.Ptr {
+		return
+	}
+	srcTypeElem := srcType.Elem()
+	dstTypeElem := dstType.Elem()
+	srcCount := srcTypeElem.NumField()
+	dstCount := dstTypeElem.NumField()
 	minCount := srcCount
 	if dstCount < minCount {
 		minCount = dstCount
@@ -19,24 +24,20 @@ func OrderCopy(src interface{}, dst interface{}) {
 	if minCount == 0 {
 		return
 	}
-	srcValue := reflect.ValueOf(src)
-	dstValue := reflect.ValueOf(dst)
+	srcValue := reflect.ValueOf(src).Elem()
+	dstValue := reflect.ValueOf(dst).Elem()
 	for i := 0; i < minCount; i++ {
-		dv := dstValue.Elem().Field(i)
-		sv := srcValue.Elem().Field(i)
-		// if !dv.IsValid() || dv.IsNil() || !dv.CanSet() {
-		// 	fmt.Println("can't set")
-		// 	continue
-		// }
-		// srcKind := srcType.Kind()
-		// if srcKind == reflect.Ptr {
-		// } else if srcKind == reflect.Array {
-		// } else if srcKind == reflect.Map {
-		// } else {
-		// 	dv.Set(sv)
-		// }
-		fmt.Println(sv)
-		dv.Set(sv)
-		fmt.Println(dv)
+		srcFieldType := srcTypeElem.Field(i)
+		dstFieldType := dstTypeElem.Field(i)
+		srcFieldValue := srcValue.Field(i)
+		dstFieldValue := dstValue.Field(i)
+		srcFieldTypeKind := srcFieldType.Type.Kind()
+		if srcFieldTypeKind == reflect.Struct {
+			OrderCopy(&srcFieldType, &dstFieldType)
+		} else if srcFieldTypeKind == reflect.Ptr {
+		} else if srcFieldTypeKind == reflect.Array {
+		} else {
+			dstFieldValue.Set(srcFieldValue)
+		}
 	}
 }
