@@ -10,8 +10,8 @@ var _ = fmt.Println
 func OrderCopy(src interface{}, dst interface{}) {
 	srcType := reflect.TypeOf(src)
 	dstType := reflect.TypeOf(dst)
+	fmt.Println(dstType.Kind())
 	if srcType.Kind() != reflect.Ptr || dstType.Kind() != reflect.Ptr {
-		fmt.Println("----------")
 		return
 	}
 	srcTypeElem := srcType.Elem()
@@ -40,11 +40,14 @@ func OrderCopy(src interface{}, dst interface{}) {
 		}
 		if srcFieldTypeKind == reflect.Struct {
 			var _ = dstFieldType
+			// newValue := reflect.New(dstFieldValue.Type().Elem())
 			newValue := reflect.New(dstFieldValue.Type())
-			newValueElem := newValue.Elem()
-			OrderCopy(&srcFieldValue, &newValueElem)
-			// dstFieldValue.Set(newValue.Elem())
-			reflect.ValueOf(dst).Elem().Field(i).Set(newValue.Elem())
+			fmt.Println("2.   ", newValue.Type().Kind())
+			// newValueElem := newValue.Elem()
+			fmt.Println(newValue)
+			fmt.Println(srcFieldValue)
+			OrderCopy(&srcFieldValue, newValue)
+			dstFieldValue.Set(newValue.Elem())
 			// OrderCopy(&srcFieldType, &dstFieldType)
 			// dstFieldValue.Set(srcFieldValue)
 		} else if srcFieldTypeKind == reflect.Ptr {
