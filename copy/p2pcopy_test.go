@@ -42,7 +42,29 @@ func TestOrderCopy(t *testing.T) {
 			Age:  3,
 		},
 	}
-	fmt.Println(cat)
+	// fmt.Println(cat)
 	OrderCopy(&dog, &cat)
-	fmt.Println(cat)
+	// fmt.Println(cat)
+}
+
+type Src struct {
+	Name string
+	ID   string
+	Pig  *CPig
+}
+
+type Dst struct {
+	Name string
+	ID   string
+	Pig  CDog
+}
+
+// 测试复制结构体
+func TestStructCopy(t *testing.T) {
+	src := &Src{"katy", "000", &CPig{"angang", 1}}
+	// fmt.Println("src:" + util.StringifyJson(src))
+	var dst Dst
+	StructCopy(&dst, src)
+	fmt.Println(dst)
+	// fmt.Println("dst:" + util.StringifyJson(dst))
 }
